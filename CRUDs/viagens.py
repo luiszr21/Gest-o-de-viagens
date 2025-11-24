@@ -2,7 +2,6 @@ from utils.requester import api_request
 from utils.tables import print_table, print_detailed
 
 def listar_viagens():
-    """Lista todas as viagens em formato de tabela"""
     print("\nBuscando viagens...")
     data = api_request("GET", "/viagens")
     
@@ -10,7 +9,6 @@ def listar_viagens():
         print("Nenhuma viagem encontrada.")
         return None
     
-    # Remover campo 'reservas' para tabela mais limpa
     for item in data:
         if 'reservas' in item:
             item['qtd_reservas'] = len(item['reservas'])
@@ -20,13 +18,12 @@ def listar_viagens():
 
 
 def criar_viagem():
-    """Cria uma nova viagem"""
     print("\n=== CRIAR NOVA VIAGEM ===")
     
     destino = input("Destino: ")
     data_inicio = input("Data início (YYYY-MM-DD): ")
     data_fim = input("Data fim (YYYY-MM-DD): ")
-    preco = float(input("Preço: "))  # converte direto para número
+    preco = float(input("Preço: ")) 
 
     body = {
         "destino": destino,
@@ -44,7 +41,6 @@ def criar_viagem():
 
 
 def atualizar_viagem():
-    """Atualiza uma viagem existente"""
     print("\n=== ATUALIZAR VIAGEM ===")
     
     listar_viagens()
@@ -75,7 +71,6 @@ def atualizar_viagem():
 
 
 def deletar_viagem():
-    """Deleta uma viagem"""
     print("\n=== DELETAR VIAGEM ===")
     
     listar_viagens()

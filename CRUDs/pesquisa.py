@@ -3,40 +3,29 @@ from utils.tables import print_table
 import pandas as pd
 
 def pesquisa_avancada_viagens():
-    """
-    Pesquisa avançada com múltiplos filtros:
-    - Destino (texto parcial)
-    - Preço máximo
-    - Data início mínima
-    """
+  
     print("\n=== PESQUISA AVANÇADA DE VIAGENS ===")
     print("(Deixe em branco para não filtrar)")
     
-    # Coletar filtros do usuário
     destino_busca = input("Parte do destino: ").strip().lower()
     preco_max = input("Preço máximo: ").strip()
     data_min = input("Data início mínima (YYYY-MM-DD): ").strip()
     
-    # Buscar todas as viagens da API
     data = api_request("GET", "/viagens")
     
     if not data:
         print("Nenhuma viagem encontrada.")
         return None
     
-    # Converter para DataFrame para facilitar filtragem
     df = pd.DataFrame(data)
     
-    # Aplicar filtros
     resultados = df.copy()
     
-    # Filtro 1: Destino (busca parcial, case-insensitive)
     if destino_busca:
         resultados = resultados[
             resultados["destino"].str.lower().str.contains(destino_busca, na=False)
         ]
     
-    # Filtro 2: Preço máximo
     if preco_max:
         try:
             preco_max_float = float(preco_max)
@@ -45,26 +34,21 @@ def pesquisa_avancada_viagens():
         except ValueError:
             print("⚠️ Preço inválido, ignorando esse filtro.")
     
-    # Filtro 3: Data início mínima (CORRIGIDO PARA TIMEZONE)
     if data_min:
         try:
-            # Converter coluna para datetime UTC
             resultados["data_inicio"] = pd.to_datetime(resultados["data_inicio"], utc=True)
-            # Converter data de busca para UTC também
             data_min_dt = pd.to_datetime(data_min, utc=True)
             resultados = resultados[resultados["data_inicio"] >= data_min_dt]
         except Exception as e:
             print(f"⚠️ Erro ao processar data: {e}")
             print("Ignorando filtro de data.")
     
-    # Exibir resultados
     if resultados.empty:
         print("\n❌ Nenhuma viagem encontrada com esses critérios.")
         return None
     
     print(f"\n✅ Encontradas {len(resultados)} viagens:")
     
-    # Formatar datas para exibição (sem timezone no display)
     if "data_inicio" in resultados.columns:
         resultados["data_inicio"] = resultados["data_inicio"].dt.strftime('%Y-%m-%d')
     if "data_fim" in resultados.columns:

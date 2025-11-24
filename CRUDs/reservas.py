@@ -3,14 +3,12 @@ from utils.tables import print_table, print_detailed
 
 
 def listar_reservas():
-    """Lista todas as reservas"""
     print("\n🔍 Buscando reservas...")
     data = api_request("GET", "/reservas")
     
     if not data:
         return None
     
-    # Simplificar dados aninhados para tabela
     simplified = []
     for item in data:
         simple_item = {
@@ -27,7 +25,6 @@ def listar_reservas():
 
 
 def criar_reserva():
-    """Cria uma nova reserva"""
     print("\n" + "="*80)
     print("➕ CRIAR NOVA RESERVA")
     print("="*80)
@@ -57,12 +54,10 @@ def criar_reserva():
 
 
 def atualizar_reserva():
-    """Atualiza uma reserva existente"""
     print("\n" + "="*80)
     print("✏️  ATUALIZAR RESERVA")
     print("="*80)
     
-    # Listar reservas primeiro
     listar_reservas()
     
     idr = input("\n🔢 ID da reserva para atualizar: ")
@@ -82,17 +77,15 @@ def atualizar_reserva():
 
 
 def deletar_reserva():
-    """Deleta uma reserva"""
     print("\n" + "="*80)
     print("🗑️  DELETAR RESERVA")
     print("="*80)
     
-    # Listar reservas primeiro
     listar_reservas()
     
     idr = input("\n🔢 ID da reserva para excluir: ")
     confirm = input("❓ Confirma a exclusão? (s/n): ").lower()
-    
+
     if confirm == "s":
         print("\n⏳ Deletando reserva...")
         res = api_request("DELETE", f"/reservas/{idr}")

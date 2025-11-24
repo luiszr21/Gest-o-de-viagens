@@ -7,16 +7,13 @@ from rich import box
 console = Console()
 
 def print_table(data):
-    """
-    Exibe os dados em formato de tabela organizada com Rich
-    """
+  
     if not data:
         console.print("\n❌ [red]Nenhum dado encontrado.[/red]\n")
         return None
 
     df = pd.DataFrame(data)
     
-    # Limpar datas para exibição mais simples
     for col in df.columns:
         if 'data' in col.lower():
             try:
@@ -24,14 +21,11 @@ def print_table(data):
             except:
                 pass
     
-    # Criar tabela Rich
     table = Table(show_header=True, header_style="bold magenta", box=box.ROUNDED)
     
-    # Adicionar colunas
     for col in df.columns:
         table.add_column(str(col), style="cyan")
     
-    # Adicionar linhas
     for _, row in df.iterrows():
         table.add_row(*[str(val) for val in row])
     
@@ -43,14 +37,11 @@ def print_table(data):
 
 
 def print_detailed(data, title="DETALHES"):
-    """
-    Exibe dados detalhados item por item com Rich
-    """
+    
     if not data:
         console.print("\n❌ [red]Nenhum dado encontrado.[/red]\n")
         return None
     
-    # Se for uma lista, exibir cada item
     if isinstance(data, list):
         console.print(f"\n[bold cyan]📋 {title.upper()}[/bold cyan]")
         
@@ -60,7 +51,6 @@ def print_detailed(data, title="DETALHES"):
         console.print(f"\n[bold green]📊 Total de registros: {len(data)}[/bold green]\n")
         return data
     
-    # Se for um único item
     else:
         console.print(f"\n[bold cyan]📋 {title.upper()}[/bold cyan]")
         print_item_rich(data, 1)
@@ -68,27 +58,22 @@ def print_detailed(data, title="DETALHES"):
 
 
 def print_item_rich(item, index):
-    """
-    Exibe um item em painel Rich
-    """
+
     if not isinstance(item, dict):
         console.print(Panel(str(item), title=f"Registro #{index}", border_style="blue"))
         return
     
     content = ""
     for key, value in item.items():
-        # Pular campos muito complexos
         if isinstance(value, list) and len(value) > 0 and isinstance(value[0], dict):
             content += f"[yellow]📦 {key}:[/yellow] [{len(value)} itens]\n"
             continue
         
-        # Se for dicionário, formatar
         if isinstance(value, dict):
             content += f"[yellow]📦 {key}:[/yellow]\n"
             for k, v in value.items():
                 content += f"   [dim]▪️  {k}:[/dim] {v}\n"
         else:
-            # Formatar datas
             if 'data' in key.lower() and isinstance(value, str) and 'T' in value:
                 try:
                     value = pd.to_datetime(value).strftime('%Y-%m-%d %H:%M')
@@ -101,9 +86,7 @@ def print_item_rich(item, index):
 
 
 def save_table_to_csv(data, filename):
-    """
-    Salva dados em arquivo CSV
-    """
+    
     if not data:
         console.print("\n❌ [red]Nenhum dado para salvar.[/red]\n")
         return

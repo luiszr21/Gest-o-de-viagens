@@ -30,7 +30,6 @@ def main():
     while True:
         op = menu()
 
-        # CRUD VIAGENS
         if op == "1":
             df = listar_viagens()
         elif op == "2":
@@ -40,7 +39,6 @@ def main():
         elif op == "4":
             deletar_viagem()
         
-        # CRUD RESERVAS
         elif op == "5":
             df = listar_reservas()
         elif op == "6":
@@ -50,17 +48,15 @@ def main():
         elif op == "8":
             deletar_reserva()
         
-        # PESQUISAS AVANÇADAS
         elif op == "9":
             pesquisa_avancada_viagens()
         
-        # GRÁFICOS
         elif op == "10":
             df = listar_viagens()
             if df is not None and not df.empty:
                 grafico_viagens(df)
         
-        # SAIR
+         
         elif op == "0":
             print("\nFinalizando sistema...")
             print("Obrigado por usar o Sistema de Gestão de Viagens!")
