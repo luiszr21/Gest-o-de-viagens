@@ -38,7 +38,6 @@ Todos os gráficos são exibidos com **barras coloridas** e tabelas organizadas 
 
 - Quantidade de viagens por destino
 - Preço médio por destino
-- Reservas por status
 
 ---
 
@@ -51,20 +50,6 @@ Todos os gráficos são exibidos com **barras coloridas** e tabelas organizadas 
   - `requests` – comunicação com API
 
 ---
-## 📂 Estrutura do Projeto
-SISTEMAVIAGEM/
-│
-├─ CRUDs/
-│ ├─ viagens.py
-│ ├─ reservas.py
-│ └─ pesquisa.py
-│
-├─ utils/
-│ ├─ graficos.py
-│ ├─ requester.py
-│ └─ tables.py
-│
-├─ main.py
-└─ README.md
+
 
 
